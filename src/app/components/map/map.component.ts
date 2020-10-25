@@ -13,7 +13,7 @@ export class MapComponent implements OnInit {
   // public locControlForm = new FormControl();
   // public locControl: boolean;
   userlocation: any;
-  marker: any;
+  marker: L.CircleMarker[];
 
   constructor() { }
   options = {
@@ -49,9 +49,13 @@ export class MapComponent implements OnInit {
   onMapReady(map: Map) {
     this.map = map;
     // map.locate({setView : false}).on('locationfound', console.log);
-    map.locate().on('locationfound', (event) => {
+    map.locate({watch: true}).on('locationfound', (event) => {
+      console.log('event', event);
       this.userlocation = event.latlng;
-      this.marker = [new Marker(this.userlocation)];
+      this.marker = [
+        new L.CircleMarker(this.userlocation, {radius: 1, color: 'red'}),
+        new L.CircleMarker(this.userlocation, {radius: event.accuracy / 2})
+      ];
     });
     // map.addControl(new Control());
   }
