@@ -60,10 +60,10 @@ export class MapComponent implements OnInit, DoCheck {
       console.log('distance', distance);
       this.marker = [
         new L.CircleMarker(this.userlocation.latlng, {radius: 1, color: 'red'}),
-        new L.Circle(this.userlocation.latlng, {radius: event.accuracy / 2}),
+        new L.Circle(this.userlocation.latlng, {radius: event.accuracy}),
         // new L.CircleMarker(this.userlocation.latlng, {radius: distance}),
-        // new L.CircleMarker(event.bounds.getNorthEast(), {radius: 1, color: 'red'}),
-        // new L.CircleMarker(event.bounds.getSouthWest(), {radius: 1, color: 'red'}),
+        new L.CircleMarker(event.bounds.getNorthEast(), {radius: 1, color: 'red'}),
+        new L.CircleMarker(event.bounds.getSouthWest(), {radius: 1, color: 'red'}),
       ];
       // if (this.map.hasLayer(this.marker[1])) {
       //   this.marker[1].remove();
