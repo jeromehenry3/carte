@@ -7,43 +7,35 @@ import * as L from 'leaflet';
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MapComponent implements OnInit, DoCheck {
-  // public locControlForm = new FormControl();
-  // public locControl: boolean;
+
   userlocation: L.LocationEvent;
   marker: L.CircleMarker[] = [];
 
-  constructor(private zone: NgZone) { }
+  constructor() { }
+  layersProviders = [
+    {link: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', maxZoom: 17}, // TOPO Max zoom 17
+    {link: 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', maxZoom: 20},
+    {link: 'https://tileserver.4umaps.com/{z}/{x}/{y}.png', maxZoom: 15}, // TOPO max 15
+    {link: 'https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=6f309b17204a493a8a95f00d8304f973', maxZoom: 100},
+    {link: 'https://tile.thunderforest.com/pioneer/{z}/{x}/{y}.png?apikey=6f309b17204a493a8a95f00d8304f973', maxZoom: 100}
+  ];
   options: L.MapOptions = {
     layers: [
-        tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
+        tileLayer(this.layersProviders[4].link, { maxZoom: this.layersProviders[4].maxZoom, attribution: '...' })
     ],
-    zoom: 17,
+    zoom: 15,
     center: latLng(48.41645121307068,  2.7258886999698015),
     zoomControl: true,
   };
-  layersProviders = [
-    'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', // TOPO Max zoom 17
-    'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
-  ];
+
 
   public map: Map;
-  // public locateOptions = {
-  //   flyTo: false,
-  //   keepCurrentZoomLevel: true,
-  //   locateOptions: {
-  //                enableHighAccuracy: true,
-  //              },
-  //   icon: 'material-icons md-18 target icon',
-  //   clickBehavior: {inView: 'stop',
-  //                   outOfView: 'setView',
-  //                   inViewNotFollowing: 'setView'}
-  // };
+
 
   ngOnInit(): void {
-    // map.locate({setView: true, maxZoom: 16});
   }
 
   ngDoCheck(): void {
@@ -51,7 +43,6 @@ export class MapComponent implements OnInit, DoCheck {
 
   onMapReady(map: Map) {
     this.map = map;
-    // map.locate({setView : false}).on('locationfound', console.log);
     this.map.locate({watch: true, enableHighAccuracy: true}).on('locationfound', (event) => {
       console.log('event', event);
       console.log('map', map);
@@ -61,37 +52,16 @@ export class MapComponent implements OnInit, DoCheck {
       this.marker = [
         new L.CircleMarker(this.userlocation.latlng, {radius: 1, color: 'red'}),
         new L.Circle(this.userlocation.latlng, {radius: event.accuracy}),
-        // new L.CircleMarker(this.userlocation.latlng, {radius: distance}),
         new L.CircleMarker(event.bounds.getNorthEast(), {radius: 1, color: 'red'}),
         new L.CircleMarker(event.bounds.getSouthWest(), {radius: 1, color: 'red'}),
       ];
-      // if (this.map.hasLayer(this.marker[1])) {
-      //   this.marker[1].remove();
-      // }
-      // this.marker.map(m => {
-      //   m.addTo(this.map);
-      // });
+
     }).on('locationerror', console.error);
-    // map.addControl(new Control());
   }
 
   onZoomEnd($event) {
     console.log('onzoomend', $event);
-    // if (this.map.hasLayer(this.marker[1])) {
-    //   console.log('marker will be removed')
-    //   this.map.removeLayer(this.marker[1])
-    // }
-    // this.marker = [
-    //   new L.CircleMarker(this.userlocation.latlng, {radius: this.userlocation.accuracy / 2}),
-    // ]
-    // this.map.addLayer(this.marker[0]);
-    // this.marker = [
-    //   new L.CircleMarker(this.userlocation.latlng, {radius: 1, color: 'red'}),
-    //   new L.CircleMarker(this.userlocation.latlng, {radius: this.userlocation.accuracy / 2}),
-    //   // new L.CircleMarker(this.userlocation.latlng, {radius: distance}),
-    //   new L.CircleMarker(this.userlocation.bounds.getNorthEast(), {radius: 1, color: 'red'}),
-    //   new L.CircleMarker(this.userlocation.bounds.getSouthWest(), {radius: 1, color: 'red'}),
-    // ];
+
   }
 
   onClick($event) {
