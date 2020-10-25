@@ -1,0 +1,75 @@
+version: 2
+jobs:
+  build-and-deploy:
+    # filter:
+    #   branches:
+    #     only: master
+    docker:
+      - image: node:current
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: yarn global add @angular/cli@9.1.12
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      # run build
+      - run: ng build --prod
+
+      - persist_to_workspace:
+          root: /root/repo
+          paths:
+            - .
+
+      - add_ssh_keys:
+          fingerprints:
+            - 'e0:63:1e:da:e9:07:87:f1:34:41:61:44:98:fb:68:5c'
+
+      - run:
+          name: Deploy over ssh
+          command:
+            # ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "echo serveur"
+            scp -o StrictHostKeyChecking=no -r -p ./dist/* $SSH_USER@$SSH_HOST:/var/www/html/
+
+  # deploy:
+  #   working_directory: ~/repo
+  #   machine:
+  #     enabled: true
+  #   steps:
+  #     - attach_workspace:
+  #         at: /repo/dist
+  #     - run:
+  #         name: Deploy Over SSH
+  #         command: |
+  #           # ssh $SSH_USER@$SSH_HOST "echo serveur"
+  #           # scp -r -p ./dist $SSH_USER@$SSH_HOST:/var/www/html
+  #           # ls -a
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build-and-deploy:
+          filters:
+            branches:
+              only: master
+      # - deploy:
+      #     requires:
+      #       - build
+      #     filters:
+      #       branches:
+      #         only: master
