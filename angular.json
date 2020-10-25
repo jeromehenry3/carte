@@ -124,5 +124,12 @@
         }
       }
     }},
+    "schematics": {
+      "@schematics/angular": {
+        "component": {
+          "changeDetection": "OnPush"
+        }
+      }
+    },
   "defaultProject": "carte"
 }
