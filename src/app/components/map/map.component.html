@@ -2,7 +2,9 @@
      leaflet
      [leafletOptions]="options"
      [leafletLayers]="marker"
+     [leafletMaxZoom]="17"
      (leafletMapReady)="onMapReady($event)"
+     (leafletMapZoomEnd)="onZoomEnd($event)"
      (leafletClick)="onClick($event)">
 </div>
 <!-- <leaflet-locate-control
