@@ -53,7 +53,7 @@ export class MapComponent implements OnInit {
       this.userlocation = event.latlng;
       this.marker = [new Marker(this.userlocation)];
     });
-    map.addControl(new Control());
+    // map.addControl(new Control());
   }
 
   onClick($event) {
