@@ -1,5 +1,13 @@
 <div id="map"
      leaflet
      [leafletOptions]="options"
+     [leafletLayers]="marker"
+     (leafletMapReady)="onMapReady($event)"
      (leafletClick)="onClick($event)">
 </div>
+<!-- <leaflet-locate-control
+    *ngIf="locControl"
+    [map]="map"
+    [options]="locateOptions"
+    (location$)="onNewLocation($event)"
+    ></leaflet-locate-control> -->

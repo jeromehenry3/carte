@@ -1,13 +1,19 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { latLng, tileLayer } from 'leaflet';
+import { FormControl } from '@angular/forms';
+import { Control, latLng, Map, Marker, tileLayer } from 'leaflet';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MapComponent implements OnInit {
+  // public locControlForm = new FormControl();
+  // public locControl: boolean;
+  userlocation: any;
+  marker: any;
 
   constructor() { }
   options = {
@@ -21,13 +27,39 @@ export class MapComponent implements OnInit {
   layersProviders = [
     'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', // TOPO Max zoom 17
     'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
-  ]
+  ];
+
+  public map: Map;
+  // public locateOptions = {
+  //   flyTo: false,
+  //   keepCurrentZoomLevel: true,
+  //   locateOptions: {
+  //                enableHighAccuracy: true,
+  //              },
+  //   icon: 'material-icons md-18 target icon',
+  //   clickBehavior: {inView: 'stop',
+  //                   outOfView: 'setView',
+  //                   inViewNotFollowing: 'setView'}
+  // };
 
   ngOnInit(): void {
+    // map.locate({setView: true, maxZoom: 16});
+  }
+
+  onMapReady(map: Map) {
+    this.map = map;
+    // map.locate({setView : false}).on('locationfound', console.log);
+    map.locate().on('locationfound', (event) => {
+      this.userlocation = event.latlng;
+      this.marker = [new Marker(this.userlocation)];
+    });
+    map.addControl(new Control());
   }
 
   onClick($event) {
     console.log('$event', $event);
   }
+
+  onNewLocation($event) {}
 
 }
