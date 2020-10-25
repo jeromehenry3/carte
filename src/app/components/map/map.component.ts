@@ -36,6 +36,30 @@ export class MapComponent implements OnInit, DoCheck {
 
 
   ngOnInit(): void {
+
+    // navigator.mediaDevices.getUserMedia({ audio: true })
+    // .then(stream => {
+    //   const mediaRecorder = new MediaRecorder(stream);
+    //   mediaRecorder.start();
+    //   console.log('start')
+
+    //   const audioChunks = [];
+    //   mediaRecorder.addEventListener("dataavailable", event => {
+    //     audioChunks.push(event.data);
+    //   });
+
+    //   mediaRecorder.addEventListener("stop", () => {
+    //     const audioBlob = new Blob(audioChunks);
+    //     const audioUrl = URL.createObjectURL(audioBlob);
+    //     const audio = new Audio(audioUrl);
+    //     audio.play();
+    //     console.log('play')
+    //   });
+
+    //   setTimeout(() => {
+    //     mediaRecorder.stop();
+    //   }, 3000);
+    // });
   }
 
   ngDoCheck(): void {

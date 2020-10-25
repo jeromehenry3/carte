@@ -1,0 +1,10 @@
+#map(leaflet, [leafletoptions]='options', [leafletlayers]='marker', [leafletmaxzoom]='17', (leafletmapready)='onMapReady($event)', (leafletmapzoomend)='onZoomEnd($event)', (leafletclick)='onClick($event)').
+  
+  
+//
+   <leaflet-locate-control
+      *ngIf="locControl"
+      [map]="map"
+      [options]="locateOptions"
+      (location$)="onNewLocation($event)"
+      ></leaflet-locate-control> 
