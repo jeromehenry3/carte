@@ -1,12 +1,45 @@
 <div id="map"
      leaflet
      [leafletOptions]="options"
-     [leafletLayers]="marker"
+     [leafletLayers]="getMarkers()"
      [leafletMaxZoom]="17"
      (leafletMapReady)="onMapReady($event)"
      (leafletMapZoomEnd)="onZoomEnd($event)"
      (leafletClick)="onClick($event)">
 </div>
+<!-- <svg class="svg" viewBox="0 0 100 100">
+  <circle r="15" cx="50" cy="0" stroke="#000000"></circle>
+  <path
+  stroke="#F36"
+  stroke-widh="1"
+  fill="none"
+  d="M50,50 A10 10 0 0 1 60 60"
+  ></path>
+  <path
+  stroke="blue"
+  stroke-widh="1"
+  fill="none"
+  [attr.d]="describeArc(50, 60, 10, 90, 135)"
+  ></path>
+  <path
+  stroke="blue"
+  stroke-widh="1"
+  fill="none"
+  [attr.d]="describeArc(polarToCartesian(50, 60, 10, 157.5).x, polarToCartesian(50, 60, 10, 157.5).y, 4, -100, 60)"
+  ></path>
+  <path
+  stroke="orange"
+  stroke-widh="1"
+  fill="none"
+  d="M50,70 A10 10 0 0 1 40 60"
+  ></path>
+  <path
+  stroke="green"
+  stroke-widh="1"
+  fill="none"
+  d="M40,60 A10 10 0 0 1 50 50"
+  ></path>
+</svg> -->
 <!-- <leaflet-locate-control
     *ngIf="locControl"
     [map]="map"
