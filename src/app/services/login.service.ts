@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from './../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   login(loginData: {email: string, password: string}): void {
-    this.http.post('http://localhost:8000/login', loginData)
+    this.http.post(`${environment.backendUrl}/login`, loginData)
     .subscribe(
       (response: {status: string, api_key: string}) => {
         localStorage.setItem('remember_token', response.api_key);
@@ -33,10 +34,11 @@ export class LoginService {
   }
 
   createUser(firstname, lastname, email, password) {
-    return this.http.post('http://localhost:8000/users/create', {firstname, lastname, email, password}, {withCredentials: true});
+    return this.http.post(`${environment.backendUrl}/users/create`,
+    {firstname, lastname, email, password}, {withCredentials: true});
   }
 
   check() {
-    return this.http.post('http://localhost:8000/check', {});
+    return this.http.post(`${environment.backendUrl}/check`, {});
   }
 }

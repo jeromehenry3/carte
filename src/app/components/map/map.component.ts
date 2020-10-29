@@ -98,7 +98,7 @@ export class MapComponent implements OnInit, DoCheck {
     return [
       ...this.marker,
       ...this.places,
-    ]
+    ];
   }
 
   onZoomEnd($event) {
@@ -112,10 +112,10 @@ export class MapComponent implements OnInit, DoCheck {
       latitude: $event.latlng.lat,
       longitude: $event.latlng.lng,
       type: 'clicked'
-    }
+    };
     this.placesService.setPlace(place).subscribe((response: any) => {
       console.log('response', response);
-    })
+    });
   }
 
   onNewLocation($event) { }

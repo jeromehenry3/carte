@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  // backendUrl: 'http://localhost/carto-jerome/carte-backend/public/',
+  backendUrl: 'https://carto-api.jeromehenry.fr/'
 };
 
 /*

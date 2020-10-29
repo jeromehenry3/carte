@@ -12,13 +12,15 @@ import { environment } from '../environments/environment';
 import { LoginComponent } from './components/login/login.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LayersSelectorComponent } from './components/map/layers-selector/layers-selector.component';
 // import { NgxLeafletLocateModule } from '@runette/ngx-leaflet-locate';
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
-    LoginComponent
+    LoginComponent,
+    LayersSelectorComponent
   ],
   imports: [
     BrowserModule,
