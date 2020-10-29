@@ -17,5 +17,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    const token = localStorage.getItem('remember_token');
+    token && this.loginService.setAPIKey(token);
   }
 }

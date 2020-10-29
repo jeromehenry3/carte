@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Form, FormBuilder, FormGroup } from '@angular/forms';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -9,10 +10,22 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private loginService: LoginService) { }
+  loginForm: FormGroup;
+
+  constructor(private loginService: LoginService, private formBuilder: FormBuilder) {
+    this.loginForm = this.formBuilder.group({
+      email: '',
+      password: '',
+    });
+  }
 
   ngOnInit(): void {
-    this.loginService.login();
+  }
+
+  onSubmit(loginFormData: { email: string, password: string }) {
+    this.loginForm.reset();
+    console.warn('login submitted', loginFormData);
+    this.loginService.login(loginFormData);
   }
 
 }

@@ -1,3 +1,21 @@
 <div id="login">
-  Authentification en cours...
+  <div class="login-container">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+      <div>
+        <label for="email">
+          email
+        </label>
+        <input id="email" type="text" formControlName="email">
+      </div>
+
+      <div>
+        <label for="password">
+          mot de passe
+        </label>
+        <input id="password" type="password" formControlName="password">
+      </div>
+      <button class="button" type="submit">Me connecter</button>
+
+    </form>
+  </div>
 </div>

@@ -9,7 +9,7 @@ import { PlacesService } from 'src/app/services/places.service';
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MapComponent implements OnInit, DoCheck {
 

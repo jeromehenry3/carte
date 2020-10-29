@@ -11,10 +11,11 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-  login(): void {
-    this.http.post('http://localhost:8000/login', {email: 'email', password: 'blabla'})
+  login(loginData: {email: string, password: string}): void {
+    this.http.post('http://localhost:8000/login', loginData)
     .subscribe(
       (response: {status: string, api_key: string}) => {
+        localStorage.setItem('remember_token', response.api_key);
         this.APIKey$.next(response.api_key);
       },
       (error: HttpErrorResponse) => {
@@ -25,6 +26,10 @@ export class LoginService {
 
   getAPIKey(): Observable<string> {
     return this.APIKey$.asObservable();
+  }
+
+  setAPIKey(APIKey: string): void {
+    this.APIKey$.next(APIKey);
   }
 
   createUser(firstname, lastname, email, password) {

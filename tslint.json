@@ -129,6 +129,7 @@
         "check-typecast"
       ]
     },
+    "no-unused-expression": [true, "allow-fast-null-checks"],
     "no-conflicting-lifecycle": true,
     "no-host-metadata-property": true,
     "no-input-rename": true,

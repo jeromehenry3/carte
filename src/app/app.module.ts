@@ -11,6 +11,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { LoginComponent } from './components/login/login.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { NgxLeafletLocateModule } from '@runette/ngx-leaflet-locate';
 
 @NgModule({
@@ -23,12 +24,16 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     LeafletModule,
     // NgxLeafletLocateModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     LeafletModule,
+    FormsModule,
+    ReactiveFormsModule,
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
