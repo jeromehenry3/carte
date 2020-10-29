@@ -16,8 +16,11 @@ export class LoginService {
     this.http.post(`${environment.backendUrl}/login`, loginData)
     .subscribe(
       (response: {status: string, api_key: string}) => {
-        localStorage.setItem('remember_token', response.api_key);
-        this.APIKey$.next(response.api_key);
+        if (response.api_key) {
+          console.log('response.api_key', response.api_key);
+          localStorage.setItem('remember_token', response.api_key);
+          this.APIKey$.next(response.api_key);
+        }
       },
       (error: HttpErrorResponse) => {
         console.log(error);
