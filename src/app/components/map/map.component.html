@@ -1,13 +1,15 @@
 <div id="map"
+    *ngIf="(layerObservable | async) as layer"
      leaflet
-     [leafletOptions]="options"
+     [leafletOptions]="getLayerOptions(layer)"
      [leafletLayers]="getMarkers()"
+     [leafletLayersControl]="layersControl"
      [leafletMaxZoom]="17"
      (leafletMapReady)="onMapReady($event)"
      (leafletMapZoomEnd)="onZoomEnd($event)"
      (leafletClick)="onClick($event)">
 </div>
-<app-layers-selector></app-layers-selector>
+<!-- <app-layers-selector></app-layers-selector> -->
 <!-- <svg class="svg" viewBox="0 0 100 100">
   <circle r="15" cx="50" cy="0" stroke="#000000"></circle>
   <path

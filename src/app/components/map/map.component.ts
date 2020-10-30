@@ -1,9 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, DoCheck, NgZone } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Control, latLng, Map, Marker, tileLayer } from 'leaflet';
+import { Component, OnInit, } from '@angular/core';
+import { latLng, Map, tileLayer } from 'leaflet';
 import * as L from 'leaflet';
 import { LoginService } from 'src/app/services/login.service';
 import { PlacesService } from 'src/app/services/places.service';
+import { MapService } from 'src/app/services/map.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-map',
@@ -11,32 +12,39 @@ import { PlacesService } from 'src/app/services/places.service';
   styleUrls: ['./map.component.scss'],
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MapComponent implements OnInit, DoCheck {
+export class MapComponent implements OnInit {
 
   userlocation: L.LocationEvent;
   marker: L.CircleMarker[] = [];
   places: L.CircleMarker[] = [];
+  layerObservable: Observable<{urlTemplate: string, maxZoom?: number}>;
+  layersControl = {
+    baseLayers: {
+      1: this.getLayer(
+        { urlTemplate: 'https://tile.thunderforest.com/pioneer/{z}/{x}/{y}.png?apikey=6f309b17204a493a8a95f00d8304f973', maxZoom: 100 }),
+      2: this.getLayer({ urlTemplate: 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', maxZoom: 20 }),
+      3: this.getLayer({ urlTemplate: 'https://tileserver.4umaps.com/{z}/{x}/{y}.png', maxZoom: 15 }), // TOPO max 15
+      4: this.getLayer(
+        { urlTemplate: 'https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=6f309b17204a493a8a95f00d8304f973', maxZoom: 100 }
+      ),
+      5: this.getLayer({ urlTemplate: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', maxZoom: 17 }), // TOPO Max zoom 17
+    }
+  };
 
   constructor(
     private loginService: LoginService,
-    private placesService: PlacesService
-  ) { }
-  layersProviders = [
-    { link: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', maxZoom: 17 }, // TOPO Max zoom 17
-    { link: 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', maxZoom: 20 },
-    { link: 'https://tileserver.4umaps.com/{z}/{x}/{y}.png', maxZoom: 15 }, // TOPO max 15
-    { link: 'https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=6f309b17204a493a8a95f00d8304f973', maxZoom: 100 },
-    { link: 'https://tile.thunderforest.com/pioneer/{z}/{x}/{y}.png?apikey=6f309b17204a493a8a95f00d8304f973', maxZoom: 100 }
-  ];
+    private placesService: PlacesService,
+    private mapService: MapService,
+  ) {
+    this.layerObservable = this.mapService.layerSubject$.asObservable();
+   }
+
   options: L.MapOptions = {
-    layers: [
-      tileLayer(this.layersProviders[1].link, { maxZoom: this.layersProviders[1].maxZoom, attribution: '...' })
-    ],
+    layers: [],
     zoom: 15,
     center: latLng(48.41645121307068, 2.7258886999698015),
     zoomControl: true,
   };
-
 
   public map: Map;
 
@@ -47,7 +55,7 @@ export class MapComponent implements OnInit, DoCheck {
       console.log('data', data);
       this.places = data.map(
         place => {
-          return new L.CircleMarker({lat: place.latitude, lng: place.longitude}, { radius: 1, color: 'blue' })
+          return new L.CircleMarker({lat: place.latitude, lng: place.longitude}, { radius: 1, color: 'blue' });
         }
       );
     });
@@ -76,7 +84,17 @@ export class MapComponent implements OnInit, DoCheck {
     // });
   }
 
-  ngDoCheck(): void {
+  getLayer(layerData: {urlTemplate: string, maxZoom?: number}): L.TileLayer {
+    return tileLayer(layerData.urlTemplate, { maxZoom: layerData.maxZoom, attribution: '...' });
+  }
+
+  getLayerOptions(layerData: {urlTemplate: string, maxZoom?: number}) {
+    return {
+      ...this.options,
+      layers: [
+        this.getLayer(layerData),
+      ],
+    };
   }
 
   onMapReady(map: Map) {
@@ -113,9 +131,9 @@ export class MapComponent implements OnInit, DoCheck {
       longitude: $event.latlng.lng,
       type: 'clicked'
     };
-    this.placesService.setPlace(place).subscribe((response: any) => {
-      console.log('response', response);
-    });
+    // this.placesService.setPlace(place).subscribe((response: any) => {
+    //   console.log('response', response);
+    // });
   }
 
   onNewLocation($event) { }

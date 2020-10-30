@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // backendUrl: 'http://localhost/carto-jerome/carte-backend/public/',
-  backendUrl: 'https://carto-api.jeromehenry.fr'
+  backendUrl: 'http://localhost:8000/',
+  // backendUrl: 'https://carto-api.jeromehenry.fr'
 };
 
 /*

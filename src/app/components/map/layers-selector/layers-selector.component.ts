@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { MapService } from 'src/app/services/map.service';
 
 @Component({
   selector: 'app-layers-selector',
@@ -9,7 +10,9 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 export class LayersSelectorComponent implements OnInit {
 
   modalOpened = false;
-  constructor() { }
+  constructor(
+    private mapService: MapService,
+  ) { }
 
   ngOnInit(): void {
   }
@@ -17,6 +20,10 @@ export class LayersSelectorComponent implements OnInit {
   onButtonClick($event: Event): void {
     $event.stopImmediatePropagation();
     this.modalOpened = !this.modalOpened;
+  }
+
+  setLayer(index: number) {
+    this.mapService.setLayer(index - 1);
   }
 
 }
