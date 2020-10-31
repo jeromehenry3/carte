@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Ajouter un marqueur</h2>
+<form [formGroup]="addMarkerForm" (ngSubmit)="onSubmit(addMarkerForm.value)">
+  <mat-dialog-content>
+    <div>
+      <label for="title">
+        titre
+      </label>
+      <input id="title" type="text" formControlName="title">
+    </div>
+
+    <div>
+      <label for="description">
+        description
+      </label>
+      <textarea contenteditable="true" id="description" type="description" [formControlName]="'description'"></textarea>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button class="create-button mat-raised-button" type="submit">Créer</button>
+    <button class="close-button mat-raised-button" (click)="close()">Annuler</button>
+  </mat-dialog-actions>
+  </form>
+

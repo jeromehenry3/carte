@@ -1,0 +1,16 @@
+#description {
+  border: 1px solid rgb(118, 118, 118);
+  border-radius: 2px;
+  padding: 1px 2px;
+}
+.mat-dialog-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.create-button,
+.close-button {
+  padding: .5em 1em;
+  border-radius: 5px;
+  cursor: pointer;
+}

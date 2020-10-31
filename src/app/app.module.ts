@@ -13,14 +13,19 @@ import { LoginComponent } from './components/login/login.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LayersSelectorComponent } from './components/map/layers-selector/layers-selector.component';
-// import { NgxLeafletLocateModule } from '@runette/ngx-leaflet-locate';
+import { AddMarkerComponent } from './components/add-marker/add-marker.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AddMarkerDialogComponent } from './dialogs/add-marker-dialog/add-marker-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
     LoginComponent,
-    LayersSelectorComponent
+    LayersSelectorComponent,
+    AddMarkerComponent,
+    AddMarkerDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +36,8 @@ import { LayersSelectorComponent } from './components/map/layers-selector/layers
     LeafletModule,
     // NgxLeafletLocateModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    BrowserAnimationsModule,
+    MatDialogModule,
   ],
   providers: [
     LeafletModule,

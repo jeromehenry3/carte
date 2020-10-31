@@ -1,5 +1,8 @@
 <ng-container *ngIf="(_apikey | async)">
   <app-map></app-map>
+  <div id="overlays-container">
+    <app-add-marker></app-add-marker>
+  </div>
 </ng-container>
 <ng-container *ngIf="!(_apikey | async)">
   <app-login></app-login>
