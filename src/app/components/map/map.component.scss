@@ -11,3 +11,8 @@
   z-index: 570;
   pointer-events: none;
 }
+::ng-deep .leaflet-control-layers-toggle {
+  background-image: url('../../../assets/icons/layers.svg')!important;
+  background-size: contain;
+  margin: 6px;
+}
