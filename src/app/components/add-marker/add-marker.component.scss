@@ -14,4 +14,6 @@
   border-radius: 50%;
   border: 1px solid #000;
   cursor: pointer;
+  z-index: 1000;
+  pointer-events: initial;
 }
