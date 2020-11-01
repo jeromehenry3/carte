@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,7 @@ export class MapService {
   ];
 
   layerSubject$: BehaviorSubject<{urlTemplate: string, maxZoom?: number}> = new BehaviorSubject(this.layersProviders[0]);
+  userLocationSubject$: BehaviorSubject<L.LocationEvent> = new BehaviorSubject(undefined);
 
   constructor() {
   }
@@ -21,6 +22,10 @@ export class MapService {
   setLayer(index: number): void {
     console.log('setLayer', index);
     this.layerSubject$.next(this.layersProviders[index]);
+  }
+
+  updateUserLocation(locationEvent: L.LocationEvent): void {
+    this.userLocationSubject$.next(locationEvent);
   }
 
 }

@@ -59,29 +59,6 @@ export class MapComponent implements OnInit {
         }
       );
     });
-    // navigator.mediaDevices.getUserMedia({ audio: true })
-    // .then(stream => {
-    //   const mediaRecorder = new MediaRecorder(stream);
-    //   mediaRecorder.start();
-    //   console.log('start')
-
-    //   const audioChunks = [];
-    //   mediaRecorder.addEventListener("dataavailable", event => {
-    //     audioChunks.push(event.data);
-    //   });
-
-    //   mediaRecorder.addEventListener("stop", () => {
-    //     const audioBlob = new Blob(audioChunks);
-    //     const audioUrl = URL.createObjectURL(audioBlob);
-    //     const audio = new Audio(audioUrl);
-    //     audio.play();
-    //     console.log('play')
-    //   });
-
-    //   setTimeout(() => {
-    //     mediaRecorder.stop();
-    //   }, 3000);
-    // });
   }
 
   getLayer(layerData: {urlTemplate: string, maxZoom?: number}): L.TileLayer {
@@ -101,6 +78,7 @@ export class MapComponent implements OnInit {
     this.map = map;
     this.map.locate({ watch: true, enableHighAccuracy: true }).on('locationfound', (event) => {
       this.userlocation = event;
+      this.mapService.updateUserLocation(event);
       const distance = this.userlocation.latlng.distanceTo(event.bounds.getNorthEast());
       this.marker = [
         new L.CircleMarker(this.userlocation.latlng, { radius: 1, color: 'red' }),
